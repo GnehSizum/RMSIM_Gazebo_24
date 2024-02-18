@@ -1,0 +1,49 @@
+<robot name="robot"
+    xmlns:xacro="http://wiki.ros.org/xacro">
+
+    <xacro:include filename="inertia.xacro" />
+    <xacro:include filename="base.xacro" />
+    <xacro:include filename="support.xacro" />
+    <xacro:include filename="wheel.xacro" />
+    <xacro:include filename="move.xacro" />
+    <xacro:include filename="camera.xacro" />
+    <xacro:include filename="imu.xacro" />
+    <xacro:include filename="mid360.xacro" />
+
+    <xacro:property name="PI" value="3.1415926535897931"/>
+    <xacro:property name="package_name" value="simulation" />
+
+    <xacro:property name="wheel_offset_x" value="0.23" />
+    <xacro:property name="wheel_offset_y" value="0.29" />
+    <xacro:property name="wheel_offset_z" value="-0.02" />
+
+    <xacro:macro name="robot">
+
+        <xacro:robot_base/>
+        <xacro:robot_support/>
+
+        <xacro:omni_wheel prefix="front_right" parent="base_link" reflect="false">
+            <origin xyz="${wheel_offset_x} -${wheel_offset_y} ${wheel_offset_z}" rpy="0 0 0"/>
+        </xacro:omni_wheel>
+
+        <xacro:omni_wheel prefix="front_left" parent="base_link" reflect="true">
+            <origin xyz="${wheel_offset_x} ${wheel_offset_y} ${wheel_offset_z}" rpy="0 0 0"/>
+        </xacro:omni_wheel>
+
+        <xacro:omni_wheel prefix="back_left" parent="base_link" reflect="true">
+            <origin xyz="-${wheel_offset_x} ${wheel_offset_y} ${wheel_offset_z}" rpy="0 0 0"/>
+        </xacro:omni_wheel>
+
+        <xacro:omni_wheel prefix="back_right" parent="base_link" reflect="false">
+            <origin xyz="-${wheel_offset_x} -${wheel_offset_y} ${wheel_offset_z}" rpy="0 0 0"/>
+        </xacro:omni_wheel>
+
+        <xacro:robot_camera/>
+        <xacro:robot_imu/>
+        <xacro:robot_mid360/>
+
+    </xacro:macro>
+
+    <xacro:robot/>
+
+</robot>

@@ -1,0 +1,95 @@
+<robot name="base"
+    xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:macro name="robot_base">
+
+        <material name="black">
+            <color rgba="0.0 0.0 0.0 1.0" />
+        </material>
+
+        <!-- PI 值设置精度需要高一些，否则后续车轮翻转量计算时，可能会出现肉眼不能察觉的车轮倾斜，从而导致模型抖动 -->
+        <xacro:property name="PI" value="3.1415926535897931"/>
+        <xacro:property name="package_name" value="simulation" />
+
+        <xacro:property name="base_footprint_radius" value="0.001" />
+        <xacro:property name="base_link_width" value="0.5" />
+        <xacro:property name="base_link_length" value="0.6" />
+        <xacro:property name="base_link_hight" value="0.22" />
+        <xacro:property name="earth_space" value="0" />
+        <xacro:property name="base_link_m" value="6.0" />
+
+        <!-- BASE_FOOTPRINT -->
+        <link name="base_footprint">
+            <visual>
+                <geometry>
+                    <box size="${base_footprint_radius} ${base_footprint_radius} ${base_footprint_radius}"/>
+                </geometry>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+            </visual>
+        </link>
+
+        <joint name="base_link2base_footprint" type="fixed">
+            <parent link="base_footprint" />
+            <child link="base_link" />
+            <origin xyz="0 0 0.0" />
+        </joint>
+
+        <gazebo reference="base_footprint">
+            <material>Gazebo/Green</material>
+            <turnGravityOff>false</turnGravityOff>
+        </gazebo>
+
+        <!-- CHASSIS -->
+        <link name="base_link">
+            <visual>
+                <geometry>
+                    <box size="${base_link_width} ${base_link_length} ${base_link_hight}"/>
+                </geometry>
+                <origin xyz="0 0 0.09" rpy="0 0 ${PI / 2}" />
+                <material name="black" />
+            </visual>
+            <collision>
+                <geometry>
+                    <box size="${base_link_width} ${base_link_length} ${base_link_hight}"/>
+                </geometry>
+            </collision>
+            <xacro:Box_inertial_matrix m="${base_link_m}" l="${base_link_length}" w="${base_link_width}" h="${base_link_hight}" />
+        </link>
+
+        <gazebo reference="base_link">
+            <material>Gazebo/Black</material>
+        </gazebo>
+
+        <!-- GIMBAL -->
+        <link name="gimbal">
+            <visual>
+                <geometry>
+                    <box size="0.2 .28 .28"/>
+                </geometry>
+                <origin xyz="0 0 0" rpy="0 0 ${PI / 2}" />
+                <material name="black">
+                    <color rgba="0 0 0 1" />
+                </material>
+            </visual>
+            <collision>
+                <geometry>
+                    <box size="0.2 .28 .28"/>
+                </geometry>
+            </collision>
+            <xacro:Box_inertial_matrix m="1.0" l="0.2" w="0.2" h="0.28" />
+        </link>
+
+        <joint name="gimbal2baselink" type="fixed">
+            <parent link="base_link"/>
+            <child link="gimbal" />
+            <origin xyz="0 0 0.22001" rpy="0 0 0" />
+            <axis xyz="0 0 1" />
+        </joint>
+
+        <gazebo reference="gimbal">
+            <material>Gazebo/Grey</material>
+        </gazebo>
+
+    </xacro:macro>
+
+</robot>

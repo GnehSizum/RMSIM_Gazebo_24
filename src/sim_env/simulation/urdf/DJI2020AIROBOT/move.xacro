@@ -1,0 +1,84 @@
+<robot name="my_car_move"
+    xmlns:xacro="http://wiki.ros.org/xacro">
+
+    <!-- JOINT_TRANS -->
+    <xacro:macro name="joint_trans" params="joint_name">
+        <transmission name="${joint_name}_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="${joint_name}">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="${joint_name}_motor">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+    </xacro:macro>
+
+    <xacro:joint_trans joint_name="left_wheel1base_link" />
+    <xacro:joint_trans joint_name="right_wheel1base_link" />
+    <xacro:joint_trans joint_name="left_wheel2base_link" />
+    <xacro:joint_trans joint_name="right_wheel2base_link" />
+
+    <gazebo reference="left_wheel1base_link">
+        <mu1>0</mu1>
+        <mu2>0</mu2>
+        <kp>200000.0</kp>
+        <kd>10.0</kd>
+        <minDepth>0.001</minDepth>
+        <maxVel>1.0</maxVel>
+    </gazebo>
+
+    <gazebo reference="left_wheel2base_link">
+        <mu1>0</mu1>
+        <mu2>0</mu2>
+        <kp>200000.0</kp>
+        <kd>10.0</kd>
+        <minDepth>0.001</minDepth>
+        <maxVel>1.0</maxVel>
+    </gazebo>
+
+    <gazebo reference="right_wheel1base_link">
+        <mu1>0</mu1>
+        <mu2>0</mu2>
+        <kp>200000.0</kp>
+        <kd>10.0</kd>
+        <minDepth>0.001</minDepth>
+        <maxVel>1.0</maxVel>
+    </gazebo>
+
+    <gazebo reference="right_wheel2base_link">
+        <mu1>0</mu1>
+        <mu2>0</mu2>
+        <kp>200000.0</kp>
+        <kd>10.0</kd>
+        <minDepth>0.001</minDepth>
+        <maxVel>1.0</maxVel>
+    </gazebo>
+
+    <!-- CONTROLLER -->
+    <gazebo>
+        <plugin name="mecanum_controller" filename="libgazebo_ros_planar_move.so">
+            <updateRate>100.0</updateRate>
+            <robotNamespace>/</robotNamespace>
+            <leftFrontJoint>left_wheel1base_link</leftFrontJoint> 
+            <rightFrontJoint>right_wheel1base_link</rightFrontJoint>  
+            <leftRearJoint>left_wheel2base_link</leftRearJoint> 
+            <rightRearJoint>right_wheel2base_link</rightRearJoint> 
+            <wheelSeparation>0.48</wheelSeparation>  
+            <wheelDiameter>${wheel_radius * 2}</wheelDiameter>    
+            <robotBaseFrame>base_link</robotBaseFrame> 
+            <torque>30</torque>
+            <wheelAcceleration>1.8</wheelAcceleration>
+            <commandTopic>cmd_vel</commandTopic>
+            <odometryFrame>odom</odometryFrame>
+            <odometryTopic>odom</odometryTopic>
+            <odometryRate>20.000000</odometryRate>
+            <broadcastTF>1</broadcastTF>
+            <covariance_x>0.000100</covariance_x>
+            <covariance_y>0.000100</covariance_y>
+            <covariance_yaw>0.000100</covariance_yaw>
+        </plugin>
+    </gazebo>
+
+</robot>

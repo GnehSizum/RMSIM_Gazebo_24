@@ -1,0 +1,89 @@
+<robot name="move"
+    xmlns:xacro="http://wiki.ros.org/xacro">
+
+    <!-- JOINT_TRANS -->
+    <xacro:macro name="joint_trans" params="joint_name">
+        <!-- Transmission is important to link the joints and the controller -->
+        <transmission name="${joint_name}_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="${joint_name}">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="${joint_name}_motor">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+    </xacro:macro>
+
+    <xacro:joint_trans joint_name="front_left_wheel_joint" />
+    <xacro:joint_trans joint_name="front_right_wheel_joint" />
+    <xacro:joint_trans joint_name="back_left_wheel_joint" />
+    <xacro:joint_trans joint_name="back_right_wheel_joint" />
+
+    <gazebo reference="front_left_wheel_joint">
+        <mu1>0.5</mu1>
+        <mu2>0.5</mu2>
+        <kp>200000.0</kp>
+        <kd>10.0</kd>
+        <minDepth>0.001</minDepth>
+        <maxVel>1.0</maxVel>
+        <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+
+    <gazebo reference="front_right_wheel_joint">
+        <mu1>0.5</mu1>
+        <mu2>0.5</mu2>
+        <kp>200000.0</kp>
+        <kd>10.0</kd>
+        <minDepth>0.001</minDepth>
+        <maxVel>1.0</maxVel>
+        <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+
+    <gazebo reference="back_left_wheel_joint">
+        <mu1>0.5</mu1>
+        <mu2>0.5</mu2>
+        <kp>200000.0</kp>
+        <kd>10.0</kd>
+        <minDepth>0.001</minDepth>
+        <maxVel>1.0</maxVel>
+        <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+
+    <gazebo reference="back_right_wheel_joint">
+        <mu1>0.5</mu1>
+        <mu2>0.5</mu2>
+        <kp>200000.0</kp>
+        <kd>10.0</kd>
+        <minDepth>0.001</minDepth>
+        <maxVel>1.0</maxVel>
+        <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+
+    <!-- CONTROLLER -->
+    <gazebo>
+        <plugin name="mecanum_controller" filename="libgazebo_ros_planar_move.so">
+            <updateRate>100.0</updateRate>
+            <robotNamespace>/</robotNamespace>
+            <leftFrontJoint>front_left_wheel_joint</leftFrontJoint>
+            <rightFrontJoint>front_right_wheel_joint</rightFrontJoint>
+            <leftRearJoint>back_left_wheel_joint</leftRearJoint>
+            <rightRearJoint>back_right_wheel_joint</rightRearJoint>
+            <wheelSeparation>0.56</wheelSeparation>
+            <wheelDiameter>0.18</wheelDiameter>
+            <robotBaseFrame>base_link</robotBaseFrame>
+            <torque>30</torque>
+            <wheelAcceleration>1.8</wheelAcceleration>
+            <commandTopic>cmd_vel</commandTopic>
+            <odometryFrame>odom</odometryFrame>
+            <odometryTopic>odom</odometryTopic>
+            <odometryRate>20.000000</odometryRate>
+            <broadcastTF>1</broadcastTF>
+            <covariance_x>0.000100</covariance_x>
+            <covariance_y>0.000100</covariance_y>
+            <covariance_yaw>0.000100</covariance_yaw>
+        </plugin>
+    </gazebo>
+
+</robot>

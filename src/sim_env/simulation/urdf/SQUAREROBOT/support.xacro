@@ -1,0 +1,143 @@
+<robot name="support"
+    xmlns:xacro="http://wiki.ros.org/xacro">
+
+    <xacro:macro name="robot_support">
+
+        <!-- Support 1 -->
+        <link name="support_1">
+            <visual>
+                <geometry>
+                    <box size="0.01 0.02 0.36"/>
+                </geometry>
+                <origin xyz="0 0 0" rpy="0 0 ${PI / 2}" />
+                <material name="black" />
+            </visual>
+            <collision>
+                <geometry>
+                    <box size="0.01 0.02 0.36"/>
+                </geometry>
+            </collision>
+            <xacro:Box_inertial_matrix m="0.1" l="0.01" w="0.02" h="0.36" />
+        </link>
+
+        <joint name="1support2baselink" type="fixed">
+            <parent link="base_link" />
+            <child link="support_1" />
+            <origin xyz="0.0 0.24 0.3215" />
+        </joint>
+
+        <gazebo reference="support_1">
+            <material>Gazebo/Black</material>
+        </gazebo>
+
+        <!-- Support 2 -->
+        <link name="support_2">
+            <visual>
+                <geometry>
+                    <box size="0.01 0.02 0.36"/>
+                </geometry>
+                <origin xyz="0 0 0" rpy="0 0 ${PI / 2}" />
+                <material name="black" />
+            </visual>
+            <collision>
+                <geometry>
+                    <box size="0.01 0.02 0.36"/>
+                </geometry>
+            </collision>
+            <xacro:Box_inertial_matrix m="0.1" l="0.01" w="0.02" h="0.36" />
+        </link>
+
+        <joint name="2support2baselink" type="fixed">
+            <parent link="base_link" />
+            <child link="support_2" />
+            <origin xyz="0.0 -0.24 0.3215" />
+        </joint>
+
+        <gazebo reference="support_2">
+            <material>Gazebo/Black</material>
+        </gazebo>
+
+        <!-- Support 3 -->
+        <link name="support_3">
+            <visual>
+                <geometry>
+                    <box size="0.01 0.02 0.18"/>
+                </geometry>
+                <origin xyz="0 0 0" rpy="0 -${PI / 3} ${PI / 2}" />
+                <material name="black" />
+            </visual>
+            <collision>
+                <geometry>
+                    <box size="0.01 0.02 0.18"/>
+                </geometry>
+            </collision>
+            <xacro:Box_inertial_matrix m="0.1" l="0.01" w="0.02" h="0.18" />
+        </link>
+
+        <joint name="3support2baselink" type="fixed">
+            <parent link="base_link" />
+            <child link="support_3" />
+            <origin xyz="0.0 0.163 0.543" />
+        </joint>
+
+        <gazebo reference="support_3">
+            <material>Gazebo/Black</material>
+        </gazebo>
+
+        <!-- Support 4 -->
+        <link name="support_4">
+            <visual>
+                <geometry>
+                    <box size="0.01 0.02 0.18"/>
+                </geometry>
+                <origin xyz="0 0 0" rpy="0 ${PI / 3} ${PI / 2}" />
+                <material name="black" />
+            </visual>
+            <collision>
+                <geometry>
+                    <box size="0.01 0.02 0.18"/>
+                </geometry>
+            </collision>
+            <xacro:Box_inertial_matrix m="0.1" l="0.01" w="0.02" h="0.18" />
+        </link>
+
+        <joint name="4support2baselink" type="fixed">
+            <parent link="base_link" />
+            <child link="support_4" />
+            <origin xyz="0.0 -0.163 0.543" />
+        </joint>
+
+        <gazebo reference="support_4">
+            <material>Gazebo/Black</material>
+        </gazebo>
+
+        <!-- Support 5 -->
+        <link name="support_5">
+            <visual>
+                <geometry>
+                    <box size="0.18 0.18 0.02"/>
+                </geometry>
+                <origin xyz="0 0 0" rpy="0 0 ${PI / 2}" />
+                <material name="black" />
+            </visual>
+            <collision>
+                <geometry>
+                    <box size="0.18 0.18 0.02"/>
+                </geometry>
+            </collision>
+            <xacro:Box_inertial_matrix m="0.1" l="0.18" w="0.18" h="0.02" />
+        </link>
+
+        <joint name="5support2baselink" type="fixed">
+            <parent link="base_link" />
+            <child link="support_5" />
+            <origin xyz="0.0 0.0 0.587" />
+        </joint>
+
+        <gazebo reference="support_5">
+            <material>Gazebo/Black</material>
+        </gazebo>
+
+    </xacro:macro>
+
+</robot>

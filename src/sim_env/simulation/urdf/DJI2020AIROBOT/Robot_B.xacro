@@ -1,0 +1,8 @@
+<robot name="robot" xmlns:xacro="http://wiki.ros.org/xacro">
+    <xacro:include filename="inertia.xacro" />
+    <xacro:include filename="base.xacro" />
+    <xacro:include filename="move.xacro" />
+    <xacro:include filename="camera.xacro" />
+    <xacro:include filename="imu.xacro" />
+    <xacro:include filename="mid360.xacro" />
+</robot>

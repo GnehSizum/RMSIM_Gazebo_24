@@ -1,0 +1,140 @@
+<robot name="base"
+    xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- PI 值设置精度需要高一些，否则后续车轮翻转量计算时，可能会出现肉眼不能察觉的车轮倾斜，从而导致模型抖动 -->
+    <xacro:property name="PI" value="3.1415926"/>
+    <xacro:property name="package_name" value="simulation" />
+
+    <material name="black">
+        <color rgba="0.0 0.0 0.0 1.0" />
+    </material>
+
+    <xacro:property name="base_footprint_radius" value="0.001" />
+    <xacro:property name="base_link_width" value="0.6" />
+    <xacro:property name="base_link_length" value="0.7" />
+    <xacro:property name="base_link_hight" value="0.3" />
+    <xacro:property name="earth_space" value="0" />
+    <xacro:property name="base_link_m" value="0.5" />
+
+    <!-- CHASSIS -->
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <mesh filename="$(find ${package_name})/meshes/Models_final/Model_B_1.dae" />
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 ${PI }" />
+            <material name="baselink_color">
+                <color rgba="0 0 0 1" />
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="$(find ${package_name})/meshes/Models_final/Model_B_1.dae" />
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 ${PI }" />
+        </collision>
+        <xacro:Box_inertial_matrix m="${base_link_m}" l="${base_link_length}" w="${base_link_width}" h="0.02" />
+    </link>
+
+    <xacro:property name="wheel_radius" value="0.09" />
+    <xacro:property name="wheel_length" value="0.05" />
+    <xacro:property name="wheel_m" value="0.05" />
+
+    <!-- WHEELS -->
+    <xacro:macro name="add1_wheels" params="name flag">
+        <link name="${name}_1wheel">
+            <visual>
+                <geometry>
+                    <cylinder radius="${wheel_radius}" length="${wheel_length}" />
+                </geometry>
+                <origin xyz="0.0 0.0 0.0" rpy="${PI / 2} 0.0 0.0" />
+                <material name="black" />
+            </visual>
+            <collision>
+                <geometry>
+                    <cylinder radius="${wheel_radius}" length="${wheel_length}" />
+                </geometry>
+                <origin xyz="0.0 0.0 0.0" rpy="${PI / 2} 0.0 0.0" />
+            </collision>
+            <xacro:cylinder_inertial_matrix m="${wheel_m}" r="${wheel_radius}" h="${wheel_length}" />
+        </link>
+
+        <joint name="${name}_wheel1base_link" type="continuous">
+            <parent link="base_link" />
+            <child link="${name}_1wheel" />
+            <origin xyz="0.2 ${flag * 0.24} 0.08" />
+            <axis xyz="0 1 0" />
+        </joint>
+
+        <gazebo reference="${name}_1wheel">
+            <material>Gazebo/Black</material>
+        </gazebo>
+    </xacro:macro>
+
+    <xacro:macro name="add2_wheels" params="name flag">
+        <link name="${name}_2wheel">
+            <visual>
+                <geometry>
+                    <cylinder radius="${wheel_radius}" length="${wheel_length}" />
+                </geometry>
+                <origin xyz="0.0 0.0 0.0" rpy="${PI / 2} 0.0 0.0" />
+                <material name="black" />
+            </visual>
+            <collision>
+                <geometry>
+                    <cylinder radius="${wheel_radius}" length="${wheel_length}" />
+                </geometry>
+                <origin xyz="0.0 0.0 0.0" rpy="${PI / 2} 0.0 0.0" />
+            </collision>
+            <xacro:cylinder_inertial_matrix m="${wheel_m}" r="${wheel_radius}" h="${wheel_length}" />
+        </link>
+
+        <joint name="${name}_wheel2base_link" type="continuous">
+            <parent link="base_link" />
+            <child link="${name}_2wheel" />
+            <origin xyz="-0.2 ${flag * 0.24} 0.08" />
+            <axis xyz="0 1 0" />
+        </joint>
+
+        <gazebo reference="${name}_2wheel">
+            <material>Gazebo/Black</material>
+        </gazebo>
+    </xacro:macro>
+
+    <xacro:add1_wheels name="left" flag="1" />
+    <xacro:add1_wheels name="right" flag="-1" />
+    <xacro:add2_wheels name="left" flag="1" />
+    <xacro:add2_wheels name="right" flag="-1" />
+
+    <!-- GIMBAL -->
+    <link name="support">
+        <visual>
+            <geometry>
+                <mesh filename="$(find ${package_name})/meshes/Models_final/Gimbal.dae" />
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 ${PI }" />
+            <material name="yellow">
+                <color rgba="0.5 0.3 0.0 0.5" />
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="$(find ${package_name})/meshes/Models_final/Gimbal.dae" />
+            </geometry>
+            <origin xyz="0 0 0.0000001" rpy="0 0 ${PI }" />
+        </collision>
+        <xacro:Box_inertial_matrix m="0.05" l="0.05" w="0.05" h="0.01" />
+    </link>
+
+    <joint name="support2baselink" type="continuous">
+        <parent link="base_link"/>
+        <child link="support" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <axis xyz="0 1 0" />
+    </joint>
+
+    <gazebo reference="support">
+        <material>Gazebo/Black</material>
+    </gazebo>
+
+</robot>

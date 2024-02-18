@@ -1,0 +1,10 @@
+<robot name="mid360"
+    xmlns:xacro="http://wiki.ros.org/xacro">
+
+    <!-- LIVOX_MID360 -->
+    <xacro:include filename="$(find ros2_livox_simulation)/urdf/mid360.xacro" />
+    <xacro:mid360 name="livox_frame" parent="base_link" topic="livox/lidar">
+        <origin xyz="0.0 0.0 0.75" rpy="3.1415926 0 0"/>
+    </xacro:mid360>
+
+</robot>

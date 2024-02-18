@@ -1,0 +1,63 @@
+<robot name="imu"
+    xmlns:xacro="http://wiki.ros.org/xacro">
+
+    <!-- IMU -->
+    <link name="imu">
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.05 0.05 0.05"/>
+            </geometry>
+        </collision>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.05 0.05 0.05"/>
+            </geometry>
+            <material name="black">
+                <color rgba="0 1 0 1"/>
+            </material>
+        </visual>
+        <inertial>
+            <mass value="1e-3" />
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+        </inertial>
+    </link>
+
+    <joint name="imu_joint" type="fixed">
+        <axis xyz="0 1 0" />
+        <origin xyz="0.0 0.0 0.7" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="imu"/>
+    </joint>
+
+    <gazebo reference="imu">
+        <material>Gazebo/Orange</material>
+        <gravity>true</gravity>
+        <sensor name="imu" type="imu">
+            <always_on>true</always_on>
+            <update_rate>100</update_rate>
+            <visualize>true</visualize>
+            <topic>__default_topic__</topic>
+            <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+                <topicName>imu</topicName>
+                <bodyName>imu_link</bodyName>
+                <updateRateHZ>100.0</updateRateHZ>
+                <gaussianNoise>0.0</gaussianNoise>
+                <xyzOffset>0 0 0</xyzOffset>
+                <rpyOffset>0 0 0</rpyOffset>
+                <frameName>imu_link</frameName>
+                <serviceName>default_service</serviceName>
+                <alwaysOn>true</alwaysOn>
+                <maxAngularVelocity>100.0</maxAngularVelocity>
+                <noiseDensity>0.0</noiseDensity>
+                <randomWalk>0.0</randomWalk>
+                <ros>
+                    <remapping>~/out:=/livox/imu</remapping>
+                </ros>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+</robot>
