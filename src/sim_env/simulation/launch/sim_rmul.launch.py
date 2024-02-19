@@ -98,7 +98,7 @@ def generate_launch_description():
             namespace='',
             executable='rviz2',
             name='rviz2',
-            arguments=['-d' + os.path.join(bringup_dir, 'rviz', 'aaa.rviz')]
+            arguments=['-d' + os.path.join(bringup_dir, 'rviz', '2d_lidar.rviz')]
     )
 
     # Create the launch description and populate

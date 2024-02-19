@@ -3,25 +3,30 @@
 
     <xacro:include filename="inertia.xacro" />
     <xacro:include filename="base.xacro" />
-    <xacro:include filename="support.xacro" />
     <xacro:include filename="wheel.xacro" />
     <xacro:include filename="move.xacro" />
     <xacro:include filename="camera.xacro" />
     <xacro:include filename="imu.xacro" />
-    <xacro:include filename="mid360.xacro" />
+    <xacro:include filename="laser.xacro" />
+    <xacro:include filename="$(find ros2_livox_simulation)/urdf/mid360.xacro" />
 
     <xacro:property name="PI" value="3.1415926535897931"/>
     <xacro:property name="package_name" value="simulation" />
 
-    <xacro:property name="wheel_offset_x" value="0.23" />
+    <xacro:property name="wheel_offset_x" value="0.21" />
     <xacro:property name="wheel_offset_y" value="0.29" />
-    <xacro:property name="wheel_offset_z" value="-0.02" />
+    <xacro:property name="wheel_offset_z" value="-0.09" />
+
+    <xacro:property name="laser_x" value="0.0" />
+    <xacro:property name="laser_y" value="0.0" />
+    <xacro:property name="laser_z" value="0.17" />
 
     <xacro:macro name="robot">
 
+        <!-- BASE_LINK -->
         <xacro:robot_base/>
-        <xacro:robot_support/>
 
+        <!-- WHEELS -->
         <xacro:omni_wheel prefix="front_right" parent="base_link" reflect="false">
             <origin xyz="${wheel_offset_x} -${wheel_offset_y} ${wheel_offset_z}" rpy="0 0 0"/>
         </xacro:omni_wheel>
@@ -38,9 +43,26 @@
             <origin xyz="-${wheel_offset_x} -${wheel_offset_y} ${wheel_offset_z}" rpy="0 0 0"/>
         </xacro:omni_wheel>
 
+        <!-- CAMERA -->
         <xacro:robot_camera/>
+
+        <!-- IMU -->
         <xacro:robot_imu/>
-        <xacro:robot_mid360/>
+
+        <!-- INVERTED LIVOX MID360 -->
+        <xacro:mid360 name="livox_frame" parent="base_link" topic="livox/lidar">
+            <origin xyz="0.0 0.0 0.53" rpy="${PI} 0 0"/>
+        </xacro:mid360>
+
+        <!-- NORMAL LIVOX MID360 -->
+        <!-- <xacro:mid360 name="livox_frame" parent="base_link" topic="livox/lidar">
+            <origin xyz="0.0 0.0 0.53" rpy="0 0 0"/>
+        </xacro:mid360> -->
+
+        <!-- 2D LIDAR -->
+        <!-- <xacro:robot_laser prefix="front" parent="base_link">
+            <origin xyz="${laser_x} ${laser_y} ${laser_z}" rpy="0 0 0"/>
+        </xacro:robot_laser> -->
 
     </xacro:macro>
 

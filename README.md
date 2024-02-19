@@ -4,7 +4,13 @@
 
 Gazebo simulator for the RoboMaster 2024.
 
-![img](img/sim.gif)
+RMUL:
+
+![RMUL](img/SIM_RMUL.png)
+
+RMUC:
+
+![RMUC](img/SIM_RMUC.png)
 
 ## 2. Prerequisites
 
@@ -30,9 +36,8 @@ sudo apt install ros-humble-gazebo-ros
 Clone the repository and colcon build: 
 
 ```bash
-cd ~/$YOUR_DIR$/src
 git clone https://github.com/GnehSizum/RMSIM_Gazebo_24.git
-cd ..
+cd RMSIM_Gazebo_24/
 colcon build --symlink-install
 . install/setup.bash
 ```
@@ -44,9 +49,15 @@ colcon build --symlink-install
 **For RMUL:**
 
 ```bash
-cd ~/$YOUR_DIR$/
 . install/setup.bash
 ros2 launch simulation sim_rmul.launch.py
+```
+
+**For RMUC:**
+
+```bash
+. install/setup.bash
+ros2 launch simulation sim_rmuc.launch.py
 ```
 
 ### 4.2. Control the motion of robot
@@ -55,16 +66,37 @@ ros2 launch simulation sim_rmul.launch.py
 ros2 run teleop_twist_keyboard teleop_twist_keyboard
 ```
 
+### 4.3. Gmapping
+
+```bash
+. install/setup.bash
+ros2 launch slam_gmapping slam_gmapping.launch.py
+```
+
+If you want to get odomTopic and odomTF from the robot model, change these 2 lines of "package://simulation/urdf/$SOME_ROBOT_DIR$/move.xacro": 
+
+```xml
+<publish_odom>true</publish_odom>
+<publish_odom_tf>true</publish_odom_tf>
+```
+
+Example: 
+
+![Gmapping](img/gmapping.png)
+
 ## 5. ToDo
 
 - [ ] Adding Omni-Wheeled Robot
-- [ ] Adding RMUC Simulation Environment
-- [ ] Support for Gmapping
+- [x] Adding RMUC Simulation Environment
+- [x] Support for 2D Lidar
+- [x] Support for Gmapping
 - [ ] Support for Nav 2
 
 ## 6. Reference
 
-[livox_laser_simulation_ROS2](https://github.com/stm32f303ret6/livox_laser_simulation_RO2.git): A ROS2 package to provide gazebo-classic plugin for Livox Series Lidar
+[livox_laser_simulation_ROS2](https://github.com/stm32f303ret6/livox_laser_simulation_RO2.git): A ROS2 package to provide gazebo-classic plugin for Livox Series Lidar.
+
+[SLAM Gmapping](https://github.com/Project-MANAS/slam_gmapping): Slam Gmapping for ROS2.
 
 ## 7. Contact me
 

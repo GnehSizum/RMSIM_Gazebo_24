@@ -7,23 +7,23 @@
         <link name="support_1">
             <visual>
                 <geometry>
-                    <box size="0.01 0.02 0.36"/>
+                    <box size="0.01 0.02 0.42"/>
                 </geometry>
                 <origin xyz="0 0 0" rpy="0 0 ${PI / 2}" />
                 <material name="black" />
             </visual>
             <collision>
                 <geometry>
-                    <box size="0.01 0.02 0.36"/>
+                    <box size="0.01 0.02 0.42"/>
                 </geometry>
             </collision>
-            <xacro:Box_inertial_matrix m="0.1" l="0.01" w="0.02" h="0.36" />
+            <xacro:Box_inertial_matrix m="0.05" l="0.01" w="0.02" h="0.42" />
         </link>
 
         <joint name="1support2baselink" type="fixed">
             <parent link="base_link" />
             <child link="support_1" />
-            <origin xyz="0.0 0.24 0.3215" />
+            <origin xyz="0.0 0.24 0.2915" />
         </joint>
 
         <gazebo reference="support_1">
@@ -34,23 +34,23 @@
         <link name="support_2">
             <visual>
                 <geometry>
-                    <box size="0.01 0.02 0.36"/>
+                    <box size="0.01 0.02 0.42"/>
                 </geometry>
                 <origin xyz="0 0 0" rpy="0 0 ${PI / 2}" />
                 <material name="black" />
             </visual>
             <collision>
                 <geometry>
-                    <box size="0.01 0.02 0.36"/>
+                    <box size="0.01 0.02 0.42"/>
                 </geometry>
             </collision>
-            <xacro:Box_inertial_matrix m="0.1" l="0.01" w="0.02" h="0.36" />
+            <xacro:Box_inertial_matrix m="0.05" l="0.01" w="0.02" h="0.42" />
         </link>
 
         <joint name="2support2baselink" type="fixed">
             <parent link="base_link" />
             <child link="support_2" />
-            <origin xyz="0.0 -0.24 0.3215" />
+            <origin xyz="0.0 -0.24 0.2915" />
         </joint>
 
         <gazebo reference="support_2">
@@ -71,7 +71,7 @@
                     <box size="0.01 0.02 0.18"/>
                 </geometry>
             </collision>
-            <xacro:Box_inertial_matrix m="0.1" l="0.01" w="0.02" h="0.18" />
+            <xacro:Box_inertial_matrix m="0.05" l="0.01" w="0.02" h="0.18" />
         </link>
 
         <joint name="3support2baselink" type="fixed">
@@ -98,7 +98,7 @@
                     <box size="0.01 0.02 0.18"/>
                 </geometry>
             </collision>
-            <xacro:Box_inertial_matrix m="0.1" l="0.01" w="0.02" h="0.18" />
+            <xacro:Box_inertial_matrix m="0.05" l="0.01" w="0.02" h="0.18" />
         </link>
 
         <joint name="4support2baselink" type="fixed">
@@ -125,7 +125,7 @@
                     <box size="0.18 0.18 0.02"/>
                 </geometry>
             </collision>
-            <xacro:Box_inertial_matrix m="0.1" l="0.18" w="0.18" h="0.02" />
+            <xacro:Box_inertial_matrix m="0.05" l="0.18" w="0.18" h="0.02" />
         </link>
 
         <joint name="5support2baselink" type="fixed">

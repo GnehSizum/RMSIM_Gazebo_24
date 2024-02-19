@@ -1,0 +1,72 @@
+<robot name="laser"
+    xmlns:xacro="http://wiki.ros.org/xacro">
+
+    <xacro:property name="laser_length" value="0.01" />
+    <xacro:property name="laser_radius" value="0.03" />
+    <xacro:property name="laser_mass" value="0.0" />
+
+<xacro:macro name="robot_laser" params="prefix parent *origin">
+
+    <!-- 2D LIDAR -->
+    <link name="${prefix}_laser">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <cylinder radius="${laser_radius}" length="${laser_length}" />
+            </geometry>
+            <material name="black" />
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="${laser_radius}" length="${laser_length}" />
+            </geometry>
+        </collision>
+        <xacro:cylinder_inertial_matrix m="${laser_mass}" r="${laser_radius}" h="${laser_length}" />
+    </link>
+
+    <joint name="${prefix}_laser_joint" type="fixed">
+        <parent link="${parent}" />
+        <child link="${prefix}_laser" />
+        <xacro:insert_block name="origin" />
+    </joint>
+
+    <gazebo reference="${prefix}_laser">
+        <material>Gazebo/Green</material>
+        <sensor type="ray" name="${prefix}_laser">
+            <pose>0 0 0 0 0 0</pose>
+            <visualize>false</visualize>
+            <update_rate>5.5</update_rate>
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>360</samples>           <!--旋转一周采的点数-->
+                        <resolution>1</resolution>       <!--每射线测距测距-->
+                        <min_angle>-3.14</min_angle>     <!--采样范围，负逆正顺-->
+                        <max_angle>3.14</max_angle>
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.10</min>    <!--可检测距离  米-->
+                    <max>12.0</max>
+                    <resolution>0.01</resolution>
+                </range>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.01</stddev>
+                </noise>
+            </ray>
+            <plugin name="gazebo_${prefix}_laser" filename="libgazebo_ros_ray_sensor.so">
+                <topic>scan</topic>
+                <ros>
+                    <remapping>~/out:=scan</remapping>
+                </ros>
+                <output_type>sensor_msgs/LaserScan</output_type>
+            </plugin>
+            <topic>scan</topic>
+        </sensor>
+    </gazebo>
+
+    </xacro:macro>
+
+</robot>

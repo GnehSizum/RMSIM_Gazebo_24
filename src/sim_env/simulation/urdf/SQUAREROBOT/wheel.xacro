@@ -1,44 +1,45 @@
-<robot name="wheel" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="wheel"
+    xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:property name="wheel_radius" value="0.09" />
-  <xacro:property name="wheel_height" value="0.0616" />
-  <xacro:property name="wheel_mass" value="0.5" />
+    <xacro:property name="wheel_radius" value="0.09" />
+    <xacro:property name="wheel_height" value="0.0616" />
+    <xacro:property name="wheel_mass" value="0.05" />
 
-  <!-- WHEELS -->
-  <xacro:macro name="omni_wheel" params="prefix parent *origin reflect">
+    <!-- WHEELS -->
+    <xacro:macro name="omni_wheel" params="prefix parent *origin reflect">
 
-    <joint name="${prefix}_wheel_joint" type="continuous">
-      <parent link="${parent}"/>
-      <child link="${prefix}_wheel_link"/>
-      <xacro:insert_block name="origin" />
-      <axis xyz="0 1 0" rpy="0 0 0" />
-      <limit effort="100" velocity="100"/>
-      <joint_properties damping="0.0" friction="0.0"/>
-    </joint>
+        <joint name="${prefix}_wheel_joint" type="continuous">
+            <parent link="${parent}"/>
+            <child link="${prefix}_wheel_link"/>
+            <xacro:insert_block name="origin" />
+            <axis xyz="0 1 0" rpy="0 0 0" />
+            <limit effort="100" velocity="100"/>
+            <joint_properties damping="0.0" friction="0.0"/>
+        </joint>
 
-    <link name="${prefix}_wheel_link">
-      <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <xacro:if value="${reflect}">
-          <geometry>
-            <mesh filename="$(find ${package_name})/meshes/mecanum_wheel/mecanum_wheel_1.dae" />
-          </geometry>
-          </xacro:if>
-          <xacro:unless value="${reflect}">
-            <geometry>
-              <mesh filename="$(find ${package_name})/meshes/mecanum_wheel/mecanum_wheel_2.dae" />
-            </geometry>
-		    </xacro:unless>
-      </visual>
+        <link name="${prefix}_wheel_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <xacro:if value="${reflect}">
+                    <geometry>
+                        <mesh filename="$(find ${package_name})/meshes/mecanum_wheel/mecanum_wheel_1.dae" />
+                    </geometry>
+                </xacro:if>
+                <xacro:unless value="${reflect}">
+                    <geometry>
+                        <mesh filename="$(find ${package_name})/meshes/mecanum_wheel/mecanum_wheel_2.dae" />
+                    </geometry>
+                </xacro:unless>
+            </visual>
 
-      <collision>
-				<origin xyz="0 0 0" rpy="${PI/2} 0 0" />
-        <geometry>
-					<cylinder length="${wheel_height}" radius="${wheel_radius}" />
-        </geometry>
-      </collision>
-      <xacro:cylinder_inertial_matrix  m="${wheel_mass}" r="${wheel_radius}" h="${wheel_height}" />
-    </link>
+            <collision>
+                <origin xyz="0 0 0" rpy="${PI/2} 0 0" />
+                <geometry>
+                    <cylinder length="${wheel_height}" radius="${wheel_radius}" />
+                </geometry>
+            </collision>
+            <xacro:cylinder_inertial_matrix m="${wheel_mass}" r="${wheel_radius}" h="${wheel_height}" />
+        </link>
 
-  </xacro:macro>
+    </xacro:macro>
 </robot>

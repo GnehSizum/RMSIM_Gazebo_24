@@ -7,9 +7,9 @@
         <xacro:property name="camera_width" value="0.025" />
         <xacro:property name="camera_height" value="0.025" />
         <xacro:property name="camera_mass" value="0.01" />
-        <xacro:property name="camera_x" value="0.125" />
+        <xacro:property name="camera_x" value="0.0" />
         <xacro:property name="camera_y" value="0.0" />
-        <xacro:property name="camera_z" value="0.15" />
+        <xacro:property name="camera_z" value="0.36" />
 
         <!-- CAMERA -->
         <link name="camera">
@@ -28,8 +28,8 @@
             <xacro:Box_inertial_matrix  m ="${camera_mass}" l ="${camera_length}" w ="${camera_width}" h ="${camera_height}" />
         </link>
 
-        <joint name="camera2gimbal" type="fixed">
-            <parent link="gimbal" />
+        <joint name="camera_joint" type="fixed">
+            <parent link="base_link" />
             <child link="camera" />
             <origin xyz="${camera_x} ${camera_y} ${camera_z}" />
         </joint>

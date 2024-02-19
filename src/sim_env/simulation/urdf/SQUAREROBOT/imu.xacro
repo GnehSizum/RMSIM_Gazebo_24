@@ -25,11 +25,11 @@
             </inertial>
         </link>
 
-        <joint name="imu2support" type="fixed">
-            <parent link="support_5"/>
+        <joint name="imu_joint" type="fixed">
+            <parent link="base_link"/>
             <child link="imu"/>
             <axis xyz="0 1 0" />
-            <origin xyz="0.0 0.0 -0.02" rpy="0 0 0"/>
+            <origin xyz="0.0 0.0 0.53" rpy="0 0 0"/>
         </joint>
 
         <gazebo reference="imu">
@@ -40,7 +40,7 @@
                 <update_rate>100</update_rate>
                 <visualize>true</visualize>
                 <topic>__default_topic__</topic>
-                <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+                <plugin filename="libgazebo_ros_imu_sensor.so" name="gazebo_imu">
                     <topicName>imu</topicName>
                     <bodyName>imu_link</bodyName>
                     <updateRateHZ>100.0</updateRateHZ>

@@ -16,7 +16,7 @@
         <xacro:property name="base_link_length" value="0.6" />
         <xacro:property name="base_link_hight" value="0.22" />
         <xacro:property name="earth_space" value="0" />
-        <xacro:property name="base_link_m" value="6.0" />
+        <xacro:property name="base_link_m" value="5.0" />
 
         <!-- BASE_FOOTPRINT -->
         <link name="base_footprint">
@@ -31,7 +31,7 @@
         <joint name="base_link2base_footprint" type="fixed">
             <parent link="base_footprint" />
             <child link="base_link" />
-            <origin xyz="0 0 0.0" />
+            <origin xyz="0 0 0.09" />
         </joint>
 
         <gazebo reference="base_footprint">
@@ -45,7 +45,7 @@
                 <geometry>
                     <box size="${base_link_width} ${base_link_length} ${base_link_hight}"/>
                 </geometry>
-                <origin xyz="0 0 0.09" rpy="0 0 ${PI / 2}" />
+                <origin xyz="0 0 0" rpy="0 0 ${PI / 2}" />
                 <material name="black" />
             </visual>
             <collision>
@@ -64,7 +64,7 @@
         <link name="gimbal">
             <visual>
                 <geometry>
-                    <box size="0.2 .28 .28"/>
+                    <box size="0.16 .16 .1"/>
                 </geometry>
                 <origin xyz="0 0 0" rpy="0 0 ${PI / 2}" />
                 <material name="black">
@@ -73,16 +73,16 @@
             </visual>
             <collision>
                 <geometry>
-                    <box size="0.2 .28 .28"/>
+                    <box size="0.16 .16 .1"/>
                 </geometry>
             </collision>
-            <xacro:Box_inertial_matrix m="1.0" l="0.2" w="0.2" h="0.28" />
+            <xacro:Box_inertial_matrix m="0.2" l="0.16" w="0.16" h="0.1" />
         </link>
 
         <joint name="gimbal2baselink" type="fixed">
             <parent link="base_link"/>
             <child link="gimbal" />
-            <origin xyz="0 0 0.22001" rpy="0 0 0" />
+            <origin xyz="0 0 0.11" rpy="0 0 0" />
             <axis xyz="0 0 1" />
         </joint>
 
